@@ -10,7 +10,6 @@ Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
 URL:		http://www.logilab.org/projects/pylint/view
 BuildRequires:	python
 BuildRequires:	python-modules >= 2.2.1
-BuildRequires:	rpm-pythonprov
 %pyrequires_eq	python-modules
 Requires:	python-logilab-common >= 0.9.0
 BuildArch:	noarch
