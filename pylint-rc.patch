@@ -1,0 +1,63 @@
+--- logilab-pylint-0.2.0.orig/examples/pylintrc	Fri Sep 12 18:31:54 2003
++++ logilab-pylint-0.2.0/examples/pylintrc	Sat Oct  4 02:26:46 2003
+@@ -1,8 +1,8 @@
+-SITE CUSTOMIZED
++#SITE CUSTOMIZED
+ #  lint Python modules using external checkers.
+ #     
+ [MASTER]
+-('CVS',)
++#('CVS',)
+ # add <file> (may be a directory) to the black list. It should be a base name, not a path. You may set this option multiple times.
+ ignore=CVS
+ 
+@@ -13,7 +13,7 @@
+ persistent=yes
+ 
+ # Python expression which should return a note lesser than 10 (10 is the highest note).You have access to the variables errors, warnings, statements which respectivly contains the number of errors / warnings messages and the total number of statements analyzed.
+-evaluation='10.0 - ((float(2 * errors + warnings) / statements) * 10)'
++evaluation=10.0 - ((float(2 * errors + warnings) / statements) * 10)
+ 
+ # Add a comment according to your evaluation note.
+ comment=no
+@@ -42,7 +42,7 @@
+ # check cyclic imports
+ cycles=yes
+ 
+-('regsub', 'TERMIOS')
++#('regsub', 'TERMIOS')
+ # Deprecated modules which should not be used, separated by a comma
+ deprecated-modules=regsub,TERMIOS
+ 
+@@ -77,7 +77,7 @@
+ # Maximum number of statements in function / method body
+ max-statements=50
+ 
+-('__revision__',)
++#('__revision__',)
+ # Required attributes for module, separated by a comma
+ required-attributes=__revision__
+ 
+@@ -111,11 +111,11 @@
+ # Regular expression which should only match correct variable name
+ variable-rgx=[a-z_]+
+ 
+-('i', 'j', 'k', 'ex')
++#('i', 'j', 'k', 'ex')
+ # Good variable names which are lesser than min-name-length or wouldn't match the variable-rgx, separated by a comma
+ good-variable-names=i,j,k,ex
+ 
+-('foo', 'bar', 'baz', 'toto', 'tutu', 'tata')
++#('foo', 'bar', 'baz', 'toto', 'tutu', 'tata')
+ # Bad variable names which are greater than min-name-length or would match the variable-rgx, separated by a comma
+ bad-variable-names=foo,bar,baz,toto,tutu,tata
+ 
+@@ -183,7 +183,7 @@
+ # check or not for source code encoding
+ encoding=yes
+ 
+-('FIXME', 'XXX')
++#('FIXME', 'XXX')
+ # list of notes to take in consideration, separated by a comma. Default to FIXME,XXX
+ notes=FIXME,XXX
+ 
