@@ -1,7 +1,6 @@
-
 %include	/usr/lib/rpm/macros.python
-
 Summary:	Python tool that checks if a module satisfy a coding standard
+Summary(pl):	Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem kodowania
 Name:		pylint
 Version:	0.1.2
 Release:	0.1
@@ -18,6 +17,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Python tool that checks if a module satisfy a coding standard.
+
+%description -l pl
+Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem
+kodowania.
 
 %prep
 %setup -q
