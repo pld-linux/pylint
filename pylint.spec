@@ -2,16 +2,16 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl):	Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem kodowania
 Name:		pylint
-Version:	0.3.3
+Version:	0.4.0
 Release:	1
 License:	GPL
 Group:		Development/Languages/Python
-Source0:	ftp://ftp.logilab.fr/pub/%{name}/%{name}-%{version}.tar.gz
-# Source0-md5:	1161cabce77c44f938206ea5611fd551
+Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
+# Source0-md5:	4cd5ccbda829a1a966c8cc91840385ba
 URL:		http://www.logilab.org/projects/%{name}/view
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
-Requires:	python-logilab-common >= 0.4.4
+Requires:	python-logilab-common >= 0.5.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -34,7 +34,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
 python setup.py install --optimize=2 --root=$RPM_BUILD_ROOT
 
-install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/
+install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}
 
 find $RPM_BUILD_ROOT%{py_sitescriptdir} -name \*.py -exec rm -f {} \;
 
