@@ -50,7 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog TODO README examples/*
+%doc ChangeLog TODO README examples/* doc/*.txt
 %attr(755,root,root) %{_bindir}/*
 %config(noreplace) %verify(not mtime md5) %{_sysconfdir}/*
 %{py_sitedir}/*
