@@ -1,16 +1,16 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl):	Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem kodowania
 Name:		pylint
-Version:	0.4.2
+Version:	0.5.0
 Release:	1
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
-# Source0-md5:	f7e20415bd74e0f6cddd6a03d66212b2
+# Source0-md5:	c78b76cf4e9e8b56ec49d5c1e3fc8a4d
 URL:		http://www.logilab.org/projects/pylint/view
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
-Requires:	python-logilab-common >= 0.5.0
+Requires:	python-logilab-common >= 0.7.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
