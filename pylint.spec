@@ -8,8 +8,10 @@ Group:		Development/Languages/Python
 Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
 # Source0-md5:	c78b76cf4e9e8b56ec49d5c1e3fc8a4d
 URL:		http://www.logilab.org/projects/pylint/view
+BuildRequires:	python
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
+%pyrequires_eq	python-modules
 Requires:	python-logilab-common >= 0.7.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
