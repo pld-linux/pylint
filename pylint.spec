@@ -2,16 +2,16 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl):	Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem kodowania
 Name:		pylint
-Version:	0.2.1
+Version:	0.3.3
 Release:	1
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	ftp://ftp.logilab.fr/pub/%{name}/%{name}-%{version}.tar.gz
-# Source0-md5:	96e2061d47722fb28fc342e7c574daec
+# Source0-md5:	1161cabce77c44f938206ea5611fd551
 URL:		http://www.logilab.org/projects/%{name}/view
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
-Requires:	python-logilab-common >= 0.3.4
+Requires:	python-logilab-common >= 0.4.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,10 +36,10 @@ python setup.py install --optimize=2 --root=$RPM_BUILD_ROOT
 
 install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/
 
-find $RPM_BUILD_ROOT%{py_sitedir} -name \*.py -exec rm -f {} \;
+find $RPM_BUILD_ROOT%{py_sitescriptdir} -name \*.py -exec rm -f {} \;
 
 # see install section of python-logilab-common for explanation
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/logilab/__init__.*
+rm -f $RPM_BUILD_ROOT%{py_sitescriptdir}/logilab/__init__.*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -49,4 +49,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc ChangeLog TODO README examples/* doc/*.txt
 %attr(755,root,root) %{_bindir}/*
 %config(noreplace) %verify(not mtime md5) %{_sysconfdir}/*
-%{py_sitedir}/*
+%{py_sitescriptdir}/*
