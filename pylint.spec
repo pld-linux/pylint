@@ -30,10 +30,11 @@ python setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man1}
 
 python setup.py install --optimize=2 --root=$RPM_BUILD_ROOT
 
+install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}
 
 find $RPM_BUILD_ROOT%{py_sitescriptdir} -name \*.py -exec rm -f {} \;
@@ -50,3 +51,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %config(noreplace) %verify(not mtime md5) %{_sysconfdir}/*
 %{py_sitescriptdir}/*
+%{_mandir}/man1/*
