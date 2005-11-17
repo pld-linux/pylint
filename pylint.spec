@@ -11,6 +11,7 @@ URL:		http://www.logilab.org/projects/pylint/view
 BuildRequires:	python-devel
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.219
 %pyrequires_eq	python-modules
 Requires:	python-logilab-astng >= 0.13.1
 BuildArch:	noarch
@@ -22,6 +23,20 @@ Python tool that checks if a module satisfy a coding standard.
 %description -l pl
 Narzêdzie sprawdzaj±ce zgodno¶æ modu³ów napisanych w jêzyku Python
 z regu³ami tworzenia kodu ¼ród³owego.
+
+%package gui
+Summary:	GUI for pylint
+Summary:	Graficzny interfejs u¿ytkownika dla pylint
+Group:		Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-tkinter
+
+%description gui
+Tk based GUI for pylint.
+
+%description gui -l pl
+Bazuj±cy na bibliotece Tk graficzny interfejs u¿ytkownika dla pylint.
+
 
 %prep
 %setup -q
@@ -38,9 +53,9 @@ python setup.py install \
 	--root=$RPM_BUILD_ROOT
 
 install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}
+tail -n 320 examples/pylintrc > $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
 
-find $RPM_BUILD_ROOT%{py_sitescriptdir} -name \*.py -exec rm -f {} \;
+%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -48,7 +63,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog TODO README examples/* doc/*.txt
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/pylint
+%attr(755,root,root) %{_bindir}/symilar
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
 %{py_sitescriptdir}/*
 %{_mandir}/man1/*
+
+%files gui
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/pylint-gui
