@@ -26,7 +26,7 @@ z regu³ami tworzenia kodu ¼ród³owego.
 
 %package gui
 Summary:	GUI for pylint
-Summary:	Graficzny interfejs u¿ytkownika dla pylint
+Summary:	Graficzny interfejs u¿ytkownika dla pylinta
 Group:		Development/Languages/Python
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-tkinter
@@ -35,8 +35,7 @@ Requires:	python-tkinter
 Tk based GUI for pylint.
 
 %description gui -l pl
-Bazuj±cy na bibliotece Tk graficzny interfejs u¿ytkownika dla pylint.
-
+Oparty na bibliotece Tk graficzny interfejs u¿ytkownika dla pylinta.
 
 %prep
 %setup -q
