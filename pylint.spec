@@ -2,7 +2,7 @@ Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl):	Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem kodowania
 Name:		pylint
 Version:	0.10.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
@@ -52,7 +52,7 @@ python setup.py install \
 	--root=$RPM_BUILD_ROOT
 
 install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-tail -n 320 examples/pylintrc > $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
+install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
 
 %py_postclean
 
