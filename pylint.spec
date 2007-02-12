@@ -1,5 +1,5 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
-Summary(pl):	Pythonowe narzêdzie sprawdzaj±ce zgodno¶æ modu³u ze standardem kodowania
+Summary(pl.UTF-8):   Pythonowe narzÄ™dzie sprawdzajÄ…ce zgodnoÅ›Ä‡ moduÅ‚u ze standardem kodowania
 Name:		pylint
 Version:	0.12.2
 Release:	1
@@ -20,13 +20,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Python tool that checks if a module satisfy a coding standard.
 
-%description -l pl
-Narzêdzie sprawdzaj±ce zgodno¶æ modu³ów napisanych w jêzyku Python
-z regu³ami tworzenia kodu ¼ród³owego.
+%description -l pl.UTF-8
+NarzÄ™dzie sprawdzajÄ…ce zgodnoÅ›Ä‡ moduÅ‚Ã³w napisanych w jÄ™zyku Python
+z reguÅ‚ami tworzenia kodu ÅºrÃ³dÅ‚owego.
 
 %package gui
 Summary:	GUI for pylint
-Summary(pl):	Graficzny interfejs u¿ytkownika dla pylinta
+Summary(pl.UTF-8):   Graficzny interfejs uÅ¼ytkownika dla pylinta
 Group:		Development/Languages/Python
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-tkinter
@@ -34,8 +34,8 @@ Requires:	python-tkinter
 %description gui
 Tk based GUI for pylint.
 
-%description gui -l pl
-Oparty na bibliotece Tk graficzny interfejs u¿ytkownika dla pylinta.
+%description gui -l pl.UTF-8
+Oparty na bibliotece Tk graficzny interfejs uÅ¼ytkownika dla pylinta.
 
 %prep
 %setup -q
