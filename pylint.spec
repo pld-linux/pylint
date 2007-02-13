@@ -1,5 +1,5 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
-Summary(pl.UTF-8):   Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
+Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
 Version:	0.12.2
 Release:	1
@@ -26,7 +26,7 @@ z regułami tworzenia kodu źródłowego.
 
 %package gui
 Summary:	GUI for pylint
-Summary(pl.UTF-8):   Graficzny interfejs użytkownika dla pylinta
+Summary(pl.UTF-8):	Graficzny interfejs użytkownika dla pylinta
 Group:		Development/Languages/Python
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-tkinter
