@@ -7,7 +7,7 @@ License:	GPL
 Group:		Development/Languages/Python
 Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
 # Source0-md5:	a6a6a1c68e56506d6fca7569f622767a
-URL:		http://www.logilab.org/projects/pylint/view
+URL:		http://www.logilab.org/project/pylint
 BuildRequires:	python-devel
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
