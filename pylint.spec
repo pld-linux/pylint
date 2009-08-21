@@ -13,7 +13,7 @@ BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 %pyrequires_eq	python-modules
-Requires:	python-logilab-astng >= 0.17.0
+Requires:	python-logilab-astng >= 0.19.0
 Suggests:	python-devel-src
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
