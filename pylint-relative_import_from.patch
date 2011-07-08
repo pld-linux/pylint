@@ -1,0 +1,13 @@
+diff -dur pylint-0.23.0.orig/checkers/variables.py pylint-0.23.0/checkers/variables.py
+--- pylint-0.23.0.orig/checkers/variables.py	2011-01-11 15:55:06.000000000 +0100
++++ pylint-0.23.0/checkers/variables.py	2011-07-08 11:03:13.000000000 +0200
+@@ -455,7 +455,8 @@
+         """check modules attribute accesses"""
+         name_parts = node.modname.split('.')
+         try:
+-            module = node.root().import_module(name_parts[0])
++            level = getattr(node, 'level', None)
++            module = node.root().import_module(name_parts[0], level = level)
+         except ASTNGBuildingException:
+             return
+         except Exception, exc:
