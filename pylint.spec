@@ -75,9 +75,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pyreverse
 %attr(755,root,root) %{_bindir}/symilar
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
-%{py_sitescriptdir}/*
-%{_mandir}/man1/*
+%{py_sitescriptdir}/pylint
+%{py_sitescriptdir}/pylint-%{version}-py*.egg-info
+%{_mandir}/man1/epylint.1*
+%{_mandir}/man1/pylint.1*
+%{_mandir}/man1/pyreverse.1*
+%{_mandir}/man1/symilar.1*
 
 %files gui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pylint-gui
+%{_mandir}/man1/pylint-gui.1*
