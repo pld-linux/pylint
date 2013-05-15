@@ -18,7 +18,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sphinx-pdg
 %pyrequires_eq	python-modules
-Requires:	python-logilab-astng >= 0.21.0
+Requires:	python-logilab-astng >= 0.24.3
 Requires:	python-logilab-common >= 0.53.0
 Suggests:	python-devel-src
 BuildArch:	noarch
