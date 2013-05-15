@@ -4,18 +4,19 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	0.25.1
+Version:	0.28.0
 Release:	1
 License:	GPL
 Group:		Development/Languages/Python
-Source0:	ftp://ftp.logilab.fr/pub/pylint/%{name}-%{version}.tar.gz
-# Source0-md5:	44270f052bd10c9ad735f509f79717f2
+Source0:	https://bitbucket.org/logilab/pylint/get/%{name}-version-%{version}.tar.bz2
+# Source0-md5:	6680efb92319ca65158b9ab5e6d26a81
 Patch0:		%{name}-type_error.patch
-URL:		http://www.logilab.org/project/pylint
+URL:		http://www.pylint.org/
 BuildRequires:	python-devel
 BuildRequires:	python-modules >= 2.2.1
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	sphinx-pdg
 %pyrequires_eq	python-modules
 Requires:	python-logilab-astng >= 0.21.0
 Requires:	python-logilab-common >= 0.53.0
@@ -44,14 +45,18 @@ Tk based GUI for pylint.
 Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 
 %prep
-%setup -q
-
+%setup -q -c
+cd logilab-pylint-*
 %patch0 -p1
 
 %build
+cd logilab-pylint-*
 python setup.py build
 
+%{__make} -C doc text
+
 %install
+cd logilab-pylint-*
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man1}
 
@@ -69,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README examples/* doc/*.txt
+%doc logilab-pylint-*/{ChangeLog,README,examples/*,doc/_build/text/*.txt}
 %attr(755,root,root) %{_bindir}/epylint
 %attr(755,root,root) %{_bindir}/pylint
 %attr(755,root,root) %{_bindir}/pyreverse
