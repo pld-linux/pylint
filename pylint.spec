@@ -1,19 +1,31 @@
 # TODO:
 # - include examples in package
-#
+
+# Conditional build:
+%bcond_without  python2 # Python 2.x version
+%bcond_without  python3 # Python 3.x version (available as 'py3lint')
+
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
 Version:	0.28.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	https://bitbucket.org/logilab/pylint/get/%{name}-version-%{version}.tar.bz2
 # Source0-md5:	6680efb92319ca65158b9ab5e6d26a81
 Patch0:		%{name}-type_error.patch
 URL:		http://www.pylint.org/
+%if %{with python2}
 BuildRequires:	python-devel
 BuildRequires:	python-modules >= 2.2.1
+%endif
+%if %{with python3}
+BuildRequires:	python3-2to3
+BuildRequires:	python3-devel
+BuildRequires:	python3-distribute
+BuildRequires:	python3-modules >= 1:3.2
+%endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sphinx-pdg
@@ -44,6 +56,37 @@ Tk based GUI for pylint.
 %description gui -l pl.UTF-8
 Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 
+%package python3
+Summary:	Python tool that checks if a module satisfy a coding standard
+Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
+Group:		Development/Languages/Python
+Requires:	python3-logilab-astng >= 0.24.3
+Requires:	python3-logilab-common >= 0.53.0
+
+%description python3
+Python tool that checks if a module satisfy a coding standard.
+
+Python 3.x version, available via the 'py3lint' command.
+
+%description python3 -l pl.UTF-8
+Narzędzie sprawdzające zgodność modułów napisanych w języku Python
+z regułami tworzenia kodu źródłowego.
+
+Wersja dla Pythona 3.x, dostępna przez polecenie 'py3lint'.
+
+%package python3-gui
+Summary:	GUI for pylint
+Summary(pl.UTF-8):	Graficzny interfejs użytkownika dla pylinta
+Group:		Development/Languages/Python
+Requires:	%{name}-python3 = %{version}-%{release}
+Requires:	python3-tkinter
+
+%description python3-gui
+Tk based GUI for pylint.
+
+%description python3-gui -l pl.UTF-8
+Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
+
 %prep
 %setup -q -c
 cd logilab-pylint-*
@@ -51,7 +94,15 @@ cd logilab-pylint-*
 
 %build
 cd logilab-pylint-*
-python setup.py build
+%if %{with python2}
+%{__python} setup.py build
+%endif
+
+%if %{with python3}
+export NO_SETUPTOOLS=1
+%{__python3} setup.py build --build-base=build3
+unset NO_SETUPTOOLS
+%endif
 
 %{__make} -C doc text
 
@@ -60,18 +111,37 @@ cd logilab-pylint-*
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man1}
 
-python setup.py install \
+%if %{with python3}
+export NO_SETUPTOOLS=1
+%{__python3} setup.py build --build-base=build3 install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 
-install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
+unset NO_SETUPTOOLS
+mv $RPM_BUILD_ROOT%{_bindir}/epylint $RPM_BUILD_ROOT%{_bindir}/epy3lint
+mv $RPM_BUILD_ROOT%{_bindir}/pylint $RPM_BUILD_ROOT%{_bindir}/py3lint
+mv $RPM_BUILD_ROOT%{_bindir}/pylint-gui $RPM_BUILD_ROOT%{_bindir}/py3lint-gui
+mv $RPM_BUILD_ROOT%{_bindir}/pyreverse $RPM_BUILD_ROOT%{_bindir}/py3reverse
+install man/epylint.1 $RPM_BUILD_ROOT%{_mandir}/man1/epy3lint.1
+install man/pylint.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3lint.1
+install man/pylint-gui.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3lint-gui.1
+install man/pyreverse.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3reverse.1
+%endif
 
+%if %{with python2}
+%{__python} setup.py install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 %py_postclean
+install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+%endif
+
+install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if %{with python2}
 %files
 %defattr(644,root,root,755)
 %doc logilab-pylint-*/{ChangeLog,README,examples/*,doc/_build/text/*.txt}
@@ -91,3 +161,25 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pylint-gui
 %{_mandir}/man1/pylint-gui.1*
+%endif
+
+%if %{with python3}
+%files python3
+%defattr(644,root,root,755)
+%doc logilab-pylint-*/{ChangeLog,README,examples/*,doc/_build/text/*.txt}
+%attr(755,root,root) %{_bindir}/epy3lint
+%attr(755,root,root) %{_bindir}/py3lint
+%attr(755,root,root) %{_bindir}/py3reverse
+#%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
+%{py3_sitescriptdir}/pylint
+%{py3_sitescriptdir}/pylint-%{version}-py*.egg-info
+%{_mandir}/man1/epy3lint.1*
+%{_mandir}/man1/py3lint.1*
+%{_mandir}/man1/py3reverse.1*
+
+%files python3-gui
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/py3lint-gui
+%{_mandir}/man1/py3lint-gui.1*
+%endif
+
