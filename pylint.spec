@@ -30,7 +30,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sphinx-pdg
 %pyrequires_eq	python-modules
-Requires:	python-logilab-astng >= 0.24.3
+Requires:	python-logilab-astroid >= 0.24.3
 Requires:	python-logilab-common >= 0.53.0
 Suggests:	python-devel-src
 BuildArch:	noarch
@@ -60,7 +60,7 @@ Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Group:		Development/Languages/Python
-Requires:	python3-logilab-astng >= 0.24.3
+Requires:	python3-logilab-astroid >= 0.24.3
 Requires:	python3-logilab-common >= 0.53.0
 
 %description python3
