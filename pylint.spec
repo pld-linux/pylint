@@ -36,6 +36,9 @@ Suggests:	python-devel-src
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# /etc/pylintrc is deliberately packaged to both packages with same name
+%define		_duplicate_files_terminate_build	0
+
 %description
 Python tool that checks if a module satisfy a coding standard.
 
