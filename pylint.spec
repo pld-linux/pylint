@@ -9,7 +9,7 @@ Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
 Version:	1.0.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	https://bitbucket.org/logilab/pylint/get/%{name}-version-%{version}.tar.bz2
@@ -29,9 +29,9 @@ BuildRequires:	python3-modules >= 1:3.2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sphinx-pdg
-%pyrequires_eq	python-modules
 Requires:	python-logilab-astroid >= 0.24.3
 Requires:	python-logilab-common >= 0.53.0
+Requires:	python-modules
 Suggests:	python-devel-src
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -40,8 +40,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Python tool that checks if a module satisfy a coding standard.
 
 %description -l pl.UTF-8
-Narzędzie sprawdzające zgodność modułów napisanych w języku Python
-z regułami tworzenia kodu źródłowego.
+Narzędzie sprawdzające zgodność modułów napisanych w języku Python z
+regułami tworzenia kodu źródłowego.
 
 %package gui
 Summary:	GUI for pylint
@@ -56,44 +56,45 @@ Tk based GUI for pylint.
 %description gui -l pl.UTF-8
 Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 
-%package python3
+%package -n py3lint
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Group:		Development/Languages/Python
 Requires:	python3-logilab-astroid >= 0.24.3
 Requires:	python3-logilab-common >= 0.53.0
+Obsoletes:	pylint-python3 < 1.0.0-2
 
-%description python3
+%description -n py3lint
 Python tool that checks if a module satisfy a coding standard.
 
 Python 3.x version, available via the 'py3lint' command.
 
-%description python3 -l pl.UTF-8
-Narzędzie sprawdzające zgodność modułów napisanych w języku Python
-z regułami tworzenia kodu źródłowego.
+%description -n py3lint -l pl.UTF-8
+Narzędzie sprawdzające zgodność modułów napisanych w języku Python z
+regułami tworzenia kodu źródłowego.
 
 Wersja dla Pythona 3.x, dostępna przez polecenie 'py3lint'.
 
-%package python3-gui
+%package -n py3lint-gui
 Summary:	GUI for pylint
 Summary(pl.UTF-8):	Graficzny interfejs użytkownika dla pylinta
 Group:		Development/Languages/Python
-Requires:	%{name}-python3 = %{version}-%{release}
+Requires:	py3lint = %{version}-%{release}
 Requires:	python3-tkinter
+Obsoletes:	pylint-python3-gui < 1.0.0-2
 
-%description python3-gui
+%description -n py3lint-gui
 Tk based GUI for pylint.
 
-%description python3-gui -l pl.UTF-8
+%description -n py3lint-gui -l pl.UTF-8
 Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 
 %prep
-%setup -q -c
-cd logilab-pylint-*
+%setup -qc
+mv logilab-pylint-*/* .
 %patch0 -p1
 
 %build
-cd logilab-pylint-*
 %if %{with python2}
 %{__python} setup.py build
 %endif
@@ -107,7 +108,7 @@ unset NO_SETUPTOOLS
 %{__make} -C doc text
 
 %install
-cd logilab-pylint-*
+rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man1}
 
@@ -122,10 +123,10 @@ mv $RPM_BUILD_ROOT%{_bindir}/epylint $RPM_BUILD_ROOT%{_bindir}/epy3lint
 mv $RPM_BUILD_ROOT%{_bindir}/pylint $RPM_BUILD_ROOT%{_bindir}/py3lint
 mv $RPM_BUILD_ROOT%{_bindir}/pylint-gui $RPM_BUILD_ROOT%{_bindir}/py3lint-gui
 mv $RPM_BUILD_ROOT%{_bindir}/pyreverse $RPM_BUILD_ROOT%{_bindir}/py3reverse
-install man/epylint.1 $RPM_BUILD_ROOT%{_mandir}/man1/epy3lint.1
-install man/pylint.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3lint.1
-install man/pylint-gui.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3lint-gui.1
-install man/pyreverse.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3reverse.1
+cp -p man/epylint.1 $RPM_BUILD_ROOT%{_mandir}/man1/epy3lint.1
+cp -p man/pylint.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3lint.1
+cp -p man/pylint-gui.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3lint-gui.1
+cp -p man/pyreverse.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3reverse.1
 %endif
 
 %if %{with python2}
@@ -133,10 +134,10 @@ install man/pyreverse.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3reverse.1
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 %py_postclean
-install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %endif
 
-install examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
+cp -p examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -164,22 +165,21 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with python3}
-%files python3
+%files -n py3lint
 %defattr(644,root,root,755)
 %doc logilab-pylint-*/{ChangeLog,README,examples/*,doc/_build/text/*.txt}
 %attr(755,root,root) %{_bindir}/epy3lint
 %attr(755,root,root) %{_bindir}/py3lint
 %attr(755,root,root) %{_bindir}/py3reverse
-#%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
 %{py3_sitescriptdir}/pylint
 %{py3_sitescriptdir}/pylint-%{version}-py*.egg-info
 %{_mandir}/man1/epy3lint.1*
 %{_mandir}/man1/py3lint.1*
 %{_mandir}/man1/py3reverse.1*
 
-%files python3-gui
+%files -n py3lint-gui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/py3lint-gui
 %{_mandir}/man1/py3lint-gui.1*
 %endif
-
