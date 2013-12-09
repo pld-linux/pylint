@@ -21,7 +21,7 @@ BuildRequires:	python-devel
 BuildRequires:	python-modules >= 2.2.1
 %endif
 %if %{with python3}
-BuildRequires:	python3-2to3
+BuildRequires:	python-2to3
 BuildRequires:	python3-devel
 BuildRequires:	python3-distribute
 BuildRequires:	python3-modules >= 1:3.2
