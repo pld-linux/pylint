@@ -99,6 +99,10 @@ Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 %build
 %if %{with python2}
 %{__python} setup.py build
+%else
+# for sphinx
+install -d build/lib
+ln -sf ../.. build/lib/pylint
 %endif
 
 %if %{with python3}
@@ -107,6 +111,7 @@ export NO_SETUPTOOLS=1
 unset NO_SETUPTOOLS
 %endif
 
+export PYTHONPATH=$PWD/build/lib
 %{__make} -C doc text
 
 %install
