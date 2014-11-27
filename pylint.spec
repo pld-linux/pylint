@@ -29,9 +29,10 @@ BuildRequires:	python3-modules >= 1:3.2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sphinx-pdg
-Requires:	python-astroid >= 0.24.3
+Requires:	python-astroid >= 1.3.2
 Requires:	python-logilab-common >= 0.53.0
 Requires:	python-modules
+Requires:	python-six
 Suggests:	python-devel-src
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -63,8 +64,9 @@ Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Group:		Development/Languages/Python
-Requires:	python3-astroid >= 0.24.3
+Requires:	python3-astroid >= 1.3.2
 Requires:	python3-logilab-common >= 0.53.0
+Requires:	python3-six
 Obsoletes:	pylint-python3 < 1.0.0-2
 
 %description -n py3lint
