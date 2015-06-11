@@ -8,23 +8,23 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	1.4.0
-Release:	2
+Version:	1.4.3
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 Source0:	https://pypi.python.org/packages/source/p/pylint/pylint-%{version}.tar.gz
-# Source0-md5:	c164738f90213981db5d3297a60b4138
-Patch0:		%{name}-type_error.patch
+# Source0-md5:	5924c1c7ca5ca23647812f5971d0ea44
 URL:		http://www.pylint.org/
 %if %{with python2}
 BuildRequires:	python-devel
 BuildRequires:	python-modules >= 1:2.5
+BuildRequires:	python-setuptools >= 7.0
 %endif
 %if %{with python3}
 BuildRequires:	python3-2to3
 BuildRequires:	python3-devel
-BuildRequires:	python3-distribute
 BuildRequires:	python3-modules >= 1:3.2
+BuildRequires:	python3-setuptools >= 7.0
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -96,7 +96,6 @@ Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %if %{with python2}
