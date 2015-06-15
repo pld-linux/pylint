@@ -112,8 +112,8 @@ export NO_SETUPTOOLS=1
 unset NO_SETUPTOOLS
 %endif
 
-export PYTHONPATH=$PWD/build/lib
-%{__make} -C doc text
+%{__make} -C doc text \
+       PYTHONPATH=$PWD/build/lib
 
 %install
 rm -rf $RPM_BUILD_ROOT
