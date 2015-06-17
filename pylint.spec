@@ -12,6 +12,7 @@ Version:	1.4.3
 Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
+#Source0Download: https://pypi.python.org/pypi/pylint
 Source0:	https://pypi.python.org/packages/source/p/pylint/pylint-%{version}.tar.gz
 # Source0-md5:	5924c1c7ca5ca23647812f5971d0ea44
 URL:		http://www.pylint.org/
