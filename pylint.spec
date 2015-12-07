@@ -9,11 +9,11 @@ Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
 Version:	1.5.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/pypi/pylint
-Source0:	https://pypi.python.org/packages/source/p/pylint/pylint-%{version}.tar.gz
+Source0:	https://pypi.python.org/packages/source/p/pylint/%{name}-%{version}.tar.gz
 # Source0-md5:	60d4be0d6d8d41b251985d7ad65c99eb
 URL:		http://www.pylint.org/
 %if %{with python2}
@@ -30,10 +30,7 @@ BuildRequires:	python3-setuptools >= 7.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sphinx-pdg
-Requires:	python-astroid >= 1.3.2
-Requires:	python-logilab-common >= 0.53.0
-Requires:	python-modules
-Requires:	python-six
+Requires:	python-pylint = %{version}-%{release}
 Suggests:	python-devel-src
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -47,6 +44,22 @@ Python tool that checks if a module satisfy a coding standard.
 %description -l pl.UTF-8
 Narzędzie sprawdzające zgodność modułów napisanych w języku Python z
 regułami tworzenia kodu źródłowego.
+
+%package -n python-pylint
+Summary:	Python tool that checks if a module satisfy a coding standard
+Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
+Group:		Libraries/Python
+
+%description -n python-pylint
+Python tool that checks if a module satisfy a coding standard.
+
+This package contains only the python modules used by the tool.
+
+%description -n python-pylint -l pl.UTF-8
+Narzędzie sprawdzające zgodność modułów napisanych w języku Python z
+regułami tworzenia kodu źródłowego.
+
+Ten pakiet zawiera tylko moduły pythona używane przez to narzędzie.
 
 %package gui
 Summary:	GUI for pylint
@@ -65,9 +78,7 @@ Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Group:		Development/Languages/Python
-Requires:	python3-astroid >= 1.3.2
-Requires:	python3-logilab-common >= 0.53.0
-Requires:	python3-six
+Requires:	python3-pylint = %{version}-%{release}
 Obsoletes:	pylint-python3 < 1.0.0-2
 
 %description -n py3lint
@@ -80,6 +91,22 @@ Narzędzie sprawdzające zgodność modułów napisanych w języku Python z
 regułami tworzenia kodu źródłowego.
 
 Wersja dla Pythona 3.x, dostępna przez polecenie 'py3lint'.
+
+%package -n python3-pylint
+Summary:	Python tool that checks if a module satisfy a coding standard
+Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
+Group:		Libraries/Python
+
+%description -n python3-pylint
+Python tool that checks if a module satisfy a coding standard.
+
+This package contains only the python modules used by the tool.
+
+%description -n python3-pylint -l pl.UTF-8
+Narzędzie sprawdzające zgodność modułów napisanych w języku Python z
+regułami tworzenia kodu źródłowego.
+
+Ten pakiet zawiera tylko moduły pythona używane przez to narzędzie.
 
 %package -n py3lint-gui
 Summary:	GUI for pylint
@@ -147,12 +174,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pyreverse
 %attr(755,root,root) %{_bindir}/symilar
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
-%{py_sitescriptdir}/pylint
-%{py_sitescriptdir}/pylint-%{version}-py*.egg-info
 %{_mandir}/man1/epylint.1*
 %{_mandir}/man1/pylint.1*
 %{_mandir}/man1/pyreverse.1*
 %{_mandir}/man1/symilar.1*
+
+%files -n python-pylint
+%defattr(644,root,root,755)
+%{py_sitescriptdir}/pylint
+%{py_sitescriptdir}/pylint-%{version}-py*.egg-info
 
 %files gui
 %defattr(644,root,root,755)
@@ -168,11 +198,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/py3lint
 %attr(755,root,root) %{_bindir}/py3reverse
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
-%{py3_sitescriptdir}/pylint
-%{py3_sitescriptdir}/pylint-%{version}-py*.egg-info
 %{_mandir}/man1/epy3lint.1*
 %{_mandir}/man1/py3lint.1*
 %{_mandir}/man1/py3reverse.1*
+
+%files -n python3-pylint
+%defattr(644,root,root,755)
+%{py3_sitescriptdir}/pylint
+%{py3_sitescriptdir}/pylint-%{version}-py*.egg-info
 
 %files -n py3lint-gui
 %defattr(644,root,root,755)
