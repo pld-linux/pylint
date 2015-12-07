@@ -8,13 +8,13 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Pythonowe narzędzie sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	1.4.3
-Release:	3
+Version:	1.5.1
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/pypi/pylint
 Source0:	https://pypi.python.org/packages/source/p/pylint/pylint-%{version}.tar.gz
-# Source0-md5:	5924c1c7ca5ca23647812f5971d0ea44
+# Source0-md5:	60d4be0d6d8d41b251985d7ad65c99eb
 URL:		http://www.pylint.org/
 %if %{with python2}
 BuildRequires:	python-devel
@@ -100,34 +100,23 @@ Oparty na bibliotece Tk graficzny interfejs użytkownika dla pylinta.
 
 %build
 %if %{with python2}
-%{__python} setup.py build
-%else
-# for sphinx
-install -d build/lib
-ln -sf ../.. build/lib/pylint
+%py_build
 %endif
 
 %if %{with python3}
-export NO_SETUPTOOLS=1
-%{__python3} setup.py build --build-base=build3
-unset NO_SETUPTOOLS
+%py3_build
 %endif
 
 %{__make} -C doc text \
-       PYTHONPATH=$PWD/build/lib
+	PYTHONPATH=$PWD
 
 %install
-rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man1}
 
 %if %{with python3}
-export NO_SETUPTOOLS=1
-%{__python3} setup.py build --build-base=build3 install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py3_install
 
-unset NO_SETUPTOOLS
 mv $RPM_BUILD_ROOT%{_bindir}/epylint $RPM_BUILD_ROOT%{_bindir}/epy3lint
 mv $RPM_BUILD_ROOT%{_bindir}/pylint $RPM_BUILD_ROOT%{_bindir}/py3lint
 mv $RPM_BUILD_ROOT%{_bindir}/pylint-gui $RPM_BUILD_ROOT%{_bindir}/py3lint-gui
@@ -139,9 +128,7 @@ cp -p man/pyreverse.1 $RPM_BUILD_ROOT%{_mandir}/man1/py3reverse.1
 %endif
 
 %if %{with python2}
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 %py_postclean
 cp -p man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %endif
