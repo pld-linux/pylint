@@ -8,26 +8,44 @@
 Summary:	Python 2 tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona 2 sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	1.7.4
+Version:	1.7.6
 Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/pypi/pylint
-Source0:	https://files.pythonhosted.org/packages/source/p/pylint/%{name}-%{version}.tar.gz
-# Source0-md5:	98a1ee985a3ebc876a20eb7577dbab68
+Source0:	https://github.com/PyCQA/pylint/archive/%{name}-%{version}.tar.gz
+# Source0-md5:	9ba6ea751ba1e04c942f0d58a96a1740
 URL:		http://www.pylint.org/
 %if %{with python2}
 BuildRequires:	python-astroid >= 1.5.3
+BuildRequires:	python-certifi >= 2017.4.17
+BuildRequires:	python-chardet >= 3.0.2
 BuildRequires:	python-devel
+BuildRequires:	python-idna >= 2.5
+BuildRequires:	python-isort
+BuildRequires:	python-lazy-object-proxy
+BuildRequires:	python-mccabe
 BuildRequires:	python-modules >= 1:2.5
 BuildRequires:	python-setuptools >= 7.0
+BuildRequires:	python-wrapt
+BuildConflicts:	python-chardet >= 3.1.0
+BuildConflicts:	python-idna >= 2.7
 %endif
 %if %{with python3}
 BuildRequires:	python3-2to3
 BuildRequires:	python3-astroid >= 1.5.3
+BuildRequires:	python3-certifi >= 2017.4.17
+BuildRequires:	python3-chardet >= 3.0.2
 BuildRequires:	python3-devel
+BuildRequires:	python3-idna >= 2.5
+BuildRequires:	python3-isort
+BuildRequires:	python3-lazy-object-proxy
+BuildRequires:	python3-mccabe
 BuildRequires:	python3-modules >= 1:3.2
 BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-wrapt
+BuildConflicts:	python3-chardet >= 3.1.0
+BuildConflicts:	python3-idna >= 2.7
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -101,7 +119,7 @@ Python z regułami tworzenia kodu źródłowego.
 Ten pakiet zawiera tylko moduły Pythona używane przez to narzędzie.
 
 %prep
-%setup -q
+%setup -q -n pylint-pylint-%{version}
 
 %build
 %if %{with python2}
