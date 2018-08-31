@@ -4,17 +4,18 @@
 # Conditional build:
 %bcond_without  python2 # Python 2.x version
 %bcond_without  python3 # Python 3.x version (available as 'py3lint')
+%bcond_without	doc # Documentation
 
 Summary:	Python 2 tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona 2 sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	1.8.2
-Release:	2
+Version:	2.1.1
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/pypi/pylint
 Source0:	https://github.com/PyCQA/pylint/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	573874b242a49af0682c29badc5cf1b9
+# Source0-md5:	64a5d6185a9fce2d1ccf5b32981bd784
 URL:		http://www.pylint.org/
 %if %{with python2}
 BuildRequires:	python-astroid >= 1.5.3
@@ -28,8 +29,8 @@ BuildRequires:	python-mccabe
 BuildRequires:	python-modules >= 1:2.5
 BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	python-wrapt
-BuildConflicts:	python-chardet >= 3.1.0
-BuildConflicts:	python-idna >= 2.7
+#BuildConflicts:	python-chardet >= 3.1.0
+#BuildConflicts:	python-idna >= 2.7
 %endif
 %if %{with python3}
 BuildRequires:	python3-2to3
@@ -44,8 +45,8 @@ BuildRequires:	python3-mccabe
 BuildRequires:	python3-modules >= 1:3.2
 BuildRequires:	python3-setuptools >= 7.0
 BuildRequires:	python3-wrapt
-BuildConflicts:	python3-chardet >= 3.1.0
-BuildConflicts:	python3-idna >= 2.7
+#BuildConflicts:	python3-chardet >= 3.1.0
+#BuildConflicts:	python3-idna >= 2.7
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -130,8 +131,10 @@ Ten pakiet zawiera tylko moduły Pythona używane przez to narzędzie.
 %py3_build
 %endif
 
+%if %{with doc}
 %{__make} -C doc text \
 	PYTHONPATH=$PWD
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -162,7 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README.rst examples/* doc/_build/text/*.txt
+%doc ChangeLog README.rst examples/*
+%{?with_doc:%doc doc/_build/text/*.txt}
 %attr(755,root,root) %{_bindir}/epylint
 %attr(755,root,root) %{_bindir}/pylint
 %attr(755,root,root) %{_bindir}/pyreverse
@@ -182,7 +186,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n py3lint
 %defattr(644,root,root,755)
-%doc ChangeLog README.rst examples/* doc/_build/text/*.txt
+%doc ChangeLog README.rst examples/*
+%{?with_doc:%doc doc/_build/text/*.txt}
 %attr(755,root,root) %{_bindir}/epy3lint
 %attr(755,root,root) %{_bindir}/py3lint
 %attr(755,root,root) %{_bindir}/py3reverse
