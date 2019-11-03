@@ -11,7 +11,7 @@ Summary:	Python 2 tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona 2 sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
 Version:	2.4.3
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
@@ -19,28 +19,25 @@ Source0:	https://github.com/PyCQA/pylint/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	742ac2d6e2528e0d2f52edadd31c837b
 URL:		http://www.pylint.org/
 %if %{with python2}
+BuildRequires:	python-astroid >= 2.3.0
 BuildRequires:	python-devel >= 1:3.5
+BuildRequires:	python-mccabe
 BuildRequires:	python-modules >= 1:3.5
 BuildRequires:	python-setuptools >= 7.0
 %if %{with tests}
-BuildRequires:	python-astroid >= 2.3.0
-BuildRequires:	python-astroid < 2.4
 BuildRequires:	python-isort >= 4.2.5
-BuildRequires:	python-isort < 5
 BuildRequires:	python-mccabe >= 0.6
-BuildRequires:	python-mccabe < 0.7
 %endif
 %endif
 %if %{with python3}
+BuildRequires:	python3-astroid >= 1.5.3
 BuildRequires:	python3-devel >= 1:3.5
+BuildRequires:	python3-mccabe
 BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools >= 7.0
 %if %{with tests}
-BuildRequires:	python3-astroid >= 1.5.3
 BuildRequires:	python3-isort >= 4.2.5
-BuildRequires:	python3-isort < 5
 BuildRequires:	python3-mccabe >= 0.6
-BuildRequires:	python3-mccabe < 0.7
 %endif
 %endif
 BuildRequires:	rpm-pythonprov
