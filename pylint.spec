@@ -14,14 +14,17 @@ Group:		Development/Languages/Python
 Source0:	https://github.com/PyCQA/pylint/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	21edaf9a0e5d836a23731f81c6bc48c2
 URL:		http://www.pylint.org/
-BuildRequires:	python3-astroid >= 1.5.3
+BuildRequires:	python3-astroid >= 2.3.0
+BuildRequires:	python3-astroid < 2.4
 BuildRequires:	python3-devel >= 1:3.5
 BuildRequires:	python3-mccabe
 BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools >= 7.0
 %if %{with tests}
 BuildRequires:	python3-isort >= 4.2.5
+BuildRequires:	python3-isort < 5
 BuildRequires:	python3-mccabe >= 0.6
+BuildRequires:	python3-mccabe < 0.7
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
