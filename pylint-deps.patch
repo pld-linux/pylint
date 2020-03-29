@@ -1,0 +1,11 @@
+--- pylint-pylint-2.4.4/setup.py.orig	2019-11-13 08:34:55.000000000 +0100
++++ pylint-pylint-2.4.4/setup.py	2020-03-29 11:42:25.260627325 +0200
+@@ -142,7 +142,7 @@
+         cmdclass=cmdclass,
+         extras_require=extras_require,
+         test_suite="test",
+-        python_requires=">=3.5.*",
++        python_requires=">=3.5.0",
+         setup_requires=["pytest-runner"],
+         tests_require=["pytest"],
+         **kwargs
