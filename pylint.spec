@@ -15,16 +15,13 @@ Source0:	https://github.com/PyCQA/pylint/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	0fab5226a8148f38914f9ebc701f659f
 URL:		http://www.pylint.org/
 BuildRequires:	python3-astroid >= 2.5.1
-BuildRequires:	python3-astroid < 2.6
 BuildRequires:	python3-devel >= 1:3.5
 BuildRequires:	python3-mccabe
 BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools >= 7.0
 %if %{with tests}
 BuildRequires:	python3-isort >= 4.2.5
-BuildRequires:	python3-isort < 5
 BuildRequires:	python3-mccabe >= 0.6
-BuildRequires:	python3-mccabe < 0.7
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
