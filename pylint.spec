@@ -6,13 +6,13 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	2.7.2
+Version:	2.12.2
 Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
-Source0:	https://github.com/PyCQA/pylint/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	0fab5226a8148f38914f9ebc701f659f
+Source0:	https://github.com/PyCQA/pylint/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	655504bea72f87c9fbe604fcbfb5434f
 URL:		http://www.pylint.org/
 BuildRequires:	python3-astroid >= 2.5.1
 BuildRequires:	python3-devel >= 1:3.5
@@ -22,6 +22,7 @@ BuildRequires:	python3-setuptools >= 7.0
 %if %{with tests} || %{with doc}
 BuildRequires:	python3-isort >= 4.2.5
 BuildRequires:	python3-mccabe >= 0.6
+BuildRequires:	python3-platformdirs >= 2.2.0
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -85,7 +86,7 @@ Documentation for pylint.
 Dokumentacja do pylinta.
 
 %prep
-%setup -q -n pylint-pylint-%{version}
+%setup -q
 
 %build
 %py3_build
@@ -97,23 +98,18 @@ Dokumentacja do pylinta.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
 %py3_install
 
 for tool in epylint pylint pyreverse symilar ; do
 	%{__mv} $RPM_BUILD_ROOT%{_bindir}/${tool} $RPM_BUILD_ROOT%{_bindir}/${tool}-3
 	ln -s ${tool}-3 $RPM_BUILD_ROOT%{_bindir}/${tool}
-	cp -p man/${tool}.1 $RPM_BUILD_ROOT%{_mandir}/man1/${tool}-3.1
-	echo ".so ${tool}-3.1" >$RPM_BUILD_ROOT%{_mandir}/man1/${tool}.1
 done
 # old PLD package compatibility
 ln -s epylint-3 $RPM_BUILD_ROOT%{_bindir}/epy3lint
 ln -s pylint-3 $RPM_BUILD_ROOT%{_bindir}/py3lint
 ln -s pyreverse-3 $RPM_BUILD_ROOT%{_bindir}/py3reverse
-echo '.so epylint-3.1' >$RPM_BUILD_ROOT%{_mandir}/man1/epy3lint.1
-echo '.so pylint-3.1' >$RPM_BUILD_ROOT%{_mandir}/man1/py3lint.1
-echo '.so pyreverse-3.1' >$RPM_BUILD_ROOT%{_mandir}/man1/py3reverse.1
 
 cp -p examples/pylintrc $RPM_BUILD_ROOT%{_sysconfdir}/pylintrc
 
@@ -126,10 +122,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pylint
 %attr(755,root,root) %{_bindir}/pyreverse
 %attr(755,root,root) %{_bindir}/symilar
-%{_mandir}/man1/epylint.1*
-%{_mandir}/man1/pylint.1*
-%{_mandir}/man1/pyreverse.1*
-%{_mandir}/man1/symilar.1*
 
 %files -n py3lint
 %defattr(644,root,root,755)
@@ -141,13 +133,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/py3lint
 %attr(755,root,root) %{_bindir}/py3reverse
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
-%{_mandir}/man1/epylint-3.1*
-%{_mandir}/man1/pylint-3.1*
-%{_mandir}/man1/pyreverse-3.1*
-%{_mandir}/man1/symilar-3.1*
-%{_mandir}/man1/epy3lint.1*
-%{_mandir}/man1/py3lint.1*
-%{_mandir}/man1/py3reverse.1*
 
 %files -n python3-pylint
 %defattr(644,root,root,755)
