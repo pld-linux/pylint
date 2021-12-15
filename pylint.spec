@@ -18,7 +18,7 @@ BuildRequires:	python3-astroid >= 2.5.1
 BuildRequires:	python3-devel >= 1:3.5
 BuildRequires:	python3-mccabe
 BuildRequires:	python3-modules >= 1:3.5
-BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-setuptools >= 1:7.0
 %if %{with tests} || %{with doc}
 BuildRequires:	python3-isort >= 4.2.5
 BuildRequires:	python3-mccabe >= 0.6
