@@ -13,21 +13,28 @@ Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
 Source0:	https://github.com/PyCQA/pylint/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	655504bea72f87c9fbe604fcbfb5434f
-URL:		http://www.pylint.org/
-BuildRequires:	python3-astroid >= 2.5.1
-BuildRequires:	python3-devel >= 1:3.5
-BuildRequires:	python3-mccabe
+URL:		https://www.pylint.org/
+BuildRequires:	python3-devel >= 1:3.6.2
 BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools >= 1:7.0
 %if %{with tests} || %{with doc}
+BuildRequires:	python3-astroid >= 2.5.1
+BuildRequires:	python3-astroid < 2.10
 BuildRequires:	python3-isort >= 4.2.5
+BuildRequires:	python3-isort < 6
 BuildRequires:	python3-mccabe >= 0.6
+BuildRequires:	python3-mccabe < 0.7
 BuildRequires:	python3-platformdirs >= 2.2.0
+BuildRequires:	python3-toml >= 0.9.2
+BuildRequires:	python3-typing_extensions >= 3.10.0
+%endif
+%if %{with tests}
+BuildRequires:	python3-pytest
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with doc}
-BuildRequires:	sphinx-pdg
+BuildRequires:	sphinx-pdg-3
 %endif
 Requires:	py3lint = %{version}-%{release}
 BuildArch:	noarch
@@ -62,6 +69,7 @@ Wersja dla Pythona 3.x, dostępna przez polecenie 'py3lint'.
 Summary:	Python 3 tool that checks if a module satisfy a coding standard (moduły)
 Summary(pl.UTF-8):	Narzędzie Pythona 3 sprawdzające zgodność modułu ze standardem kodowania (modules)
 Group:		Libraries/Python
+Requires:	python3-modules >= 1:3.6.2
 
 %description -n python3-pylint
 Python 3 tool that checks if a module satisfy a coding standard.
@@ -93,7 +101,8 @@ Dokumentacja do pylinta.
 
 %if %{with doc}
 %{__make} -C doc text \
-	PYTHONPATH=$PWD
+	PYTHONPATH=$PWD \
+	SPHINXBUILD=sphinx-build-3
 %endif
 
 %install
