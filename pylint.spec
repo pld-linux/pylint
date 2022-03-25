@@ -7,7 +7,7 @@ Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
 Version:	2.12.2
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
