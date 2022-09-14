@@ -6,35 +6,47 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	2.12.2
-Release:	3
+Version:	2.15.2
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
 Source0:	https://github.com/PyCQA/pylint/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	655504bea72f87c9fbe604fcbfb5434f
+# Source0-md5:	02a41a1ea1576d89614f6b2cffff48f6
 URL:		https://www.pylint.org/
-BuildRequires:	python3-devel >= 1:3.6.2
-BuildRequires:	python3-modules >= 1:3.5
-BuildRequires:	python3-setuptools >= 1:7.0
+BuildRequires:	python3-devel >= 1:3.7.2
+BuildRequires:	python3-modules >= 1:3.7.2
+BuildRequires:	python3-setuptools >= 1:62.6
 %if %{with tests} || %{with doc}
-BuildRequires:	python3-astroid >= 2.5.1
-BuildRequires:	python3-astroid < 2.10
+BuildRequires:	python3-astroid >= 2.12.9
+BuildRequires:	python3-astroid < 2.14
+BuildRequires:	python3-dill >= 0.2
 BuildRequires:	python3-isort >= 4.2.5
 BuildRequires:	python3-isort < 6
 BuildRequires:	python3-mccabe >= 0.6
-BuildRequires:	python3-mccabe < 0.7
+BuildRequires:	python3-mccabe < 0.8
 BuildRequires:	python3-platformdirs >= 2.2.0
-BuildRequires:	python3-toml >= 0.9.2
+%if "%{_ver_lt '%{py3_ver}' '3.11'}" == "1"
+BuildRequires:	python3-tomli >= 1.1.0
+%endif
+BuildRequires:	python3-tomlkit >= 0.10.1
+%if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
 BuildRequires:	python3-typing_extensions >= 3.10.0
+%endif
 %endif
 %if %{with tests}
 BuildRequires:	python3-pytest
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
+BuildRequires:	rpmbuild(macros) >= 1.749
 %if %{with doc}
-BuildRequires:	sphinx-pdg-3
+BuildRequires:	python3-furo >= 2021.9
+# >= 2022.6.21 when available
+#BuildRequires:	python3-myst_parser >= 0.18
+BuildRequires:	python3-myst_parser < 1
+BuildRequires:	python3-sphinx_reredirects < 1
+BuildRequires:	sphinx-pdg-3 >= 4.5
+# >= 5.1.1 when available
 %endif
 Requires:	py3lint = %{version}-%{release}
 BuildArch:	noarch
@@ -69,7 +81,7 @@ Wersja dla Pythona 3.x, dostępna przez polecenie 'py3lint'.
 Summary:	Python 3 tool that checks if a module satisfy a coding standard (moduły)
 Summary(pl.UTF-8):	Narzędzie Pythona 3 sprawdzające zgodność modułu ze standardem kodowania (modules)
 Group:		Libraries/Python
-Requires:	python3-modules >= 1:3.6.2
+Requires:	python3-modules >= 1:3.7.2
 
 %description -n python3-pylint
 Python 3 tool that checks if a module satisfy a coding standard.
@@ -96,11 +108,17 @@ Dokumentacja do pylinta.
 %prep
 %setup -q
 
+# stub for setuptools
+cat >setup.py <<EOF
+from setuptools import setup
+setup()
+EOF
+
 %build
 %py3_build
 
 %if %{with doc}
-%{__make} -C doc text \
+%{__make} -C doc build-html \
 	PYTHONPATH=$PWD \
 	SPHINXBUILD=sphinx-build-3
 %endif
@@ -111,7 +129,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
 %py3_install
 
-for tool in epylint pylint pyreverse symilar ; do
+for tool in epylint pylint pylint-config pyreverse symilar ; do
 	%{__mv} $RPM_BUILD_ROOT%{_bindir}/${tool} $RPM_BUILD_ROOT%{_bindir}/${tool}-3
 	ln -s ${tool}-3 $RPM_BUILD_ROOT%{_bindir}/${tool}
 done
@@ -129,6 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/epylint
 %attr(755,root,root) %{_bindir}/pylint
+%attr(755,root,root) %{_bindir}/pylint-config
 %attr(755,root,root) %{_bindir}/pyreverse
 %attr(755,root,root) %{_bindir}/symilar
 
@@ -136,6 +155,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/epylint-3
 %attr(755,root,root) %{_bindir}/pylint-3
+%attr(755,root,root) %{_bindir}/pylint-config-3
 %attr(755,root,root) %{_bindir}/pyreverse-3
 %attr(755,root,root) %{_bindir}/symilar-3
 %attr(755,root,root) %{_bindir}/epy3lint
@@ -145,12 +165,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python3-pylint
 %defattr(644,root,root,755)
-%doc CONTRIBUTORS.txt ChangeLog README.rst examples
+%doc CONTRIBUTORS.txt README.rst examples
 %{py3_sitescriptdir}/pylint
 %{py3_sitescriptdir}/pylint-%{version}-py*.egg-info
 
 %if %{with doc}
 %files doc
 %defattr(644,root,root,755)
-%doc doc/_build/text/*
+%doc doc/_build/html/*
 %endif
