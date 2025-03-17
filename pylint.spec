@@ -6,20 +6,20 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	2.15.2
-Release:	4
+Version:	3.3.5
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
 Source0:	https://github.com/PyCQA/pylint/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	02a41a1ea1576d89614f6b2cffff48f6
+# Source0-md5:	44d3c804cae012607fc0b691331d8204
 URL:		https://www.pylint.org/
 BuildRequires:	python3-devel >= 1:3.7.2
 BuildRequires:	python3-modules >= 1:3.7.2
 BuildRequires:	python3-setuptools >= 1:62.6
 %if %{with tests} || %{with doc}
-BuildRequires:	python3-astroid >= 2.12.9
-BuildRequires:	python3-astroid < 2.14
+BuildRequires:	python3-astroid >= 3.3.0
+BuildRequires:	python3-astroid < 4.0.0
 BuildRequires:	python3-dill >= 0.2
 BuildRequires:	python3-isort >= 4.2.5
 BuildRequires:	python3-isort < 6
@@ -41,9 +41,6 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.749
 %if %{with doc}
 BuildRequires:	python3-furo >= 2021.9
-# >= 2022.6.21 when available
-#BuildRequires:	python3-myst_parser >= 0.18
-BuildRequires:	python3-myst_parser < 1
 BuildRequires:	python3-sphinx_reredirects < 1
 BuildRequires:	sphinx-pdg-3 >= 4.5
 # >= 5.1.1 when available
@@ -121,8 +118,10 @@ EOF
 %py3_build
 
 %if %{with doc}
-%{__make} -C doc build-html \
+%{__make} -C doc html \
 	PYTHONPATH=$PWD \
+	PIP=/bin/true \
+	PYLINT_SPHINX_FATAL_WARNINGS= \
 	SPHINXBUILD=sphinx-build-3
 %endif
 
@@ -132,12 +131,11 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
 %py3_install
 
-for tool in epylint pylint pylint-config pyreverse symilar ; do
+for tool in pylint pylint-config pyreverse symilar ; do
 	%{__mv} $RPM_BUILD_ROOT%{_bindir}/${tool} $RPM_BUILD_ROOT%{_bindir}/${tool}-3
 	ln -s ${tool}-3 $RPM_BUILD_ROOT%{_bindir}/${tool}
 done
 # old PLD package compatibility
-ln -s epylint-3 $RPM_BUILD_ROOT%{_bindir}/epy3lint
 ln -s pylint-3 $RPM_BUILD_ROOT%{_bindir}/py3lint
 ln -s pyreverse-3 $RPM_BUILD_ROOT%{_bindir}/py3reverse
 
@@ -148,7 +146,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/epylint
 %attr(755,root,root) %{_bindir}/pylint
 %attr(755,root,root) %{_bindir}/pylint-config
 %attr(755,root,root) %{_bindir}/pyreverse
@@ -156,12 +153,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n py3lint
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/epylint-3
 %attr(755,root,root) %{_bindir}/pylint-3
 %attr(755,root,root) %{_bindir}/pylint-config-3
 %attr(755,root,root) %{_bindir}/pyreverse-3
 %attr(755,root,root) %{_bindir}/symilar-3
-%attr(755,root,root) %{_bindir}/epy3lint
 %attr(755,root,root) %{_bindir}/py3lint
 %attr(755,root,root) %{_bindir}/py3reverse
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pylintrc
