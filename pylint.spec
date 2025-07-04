@@ -6,23 +6,25 @@
 Summary:	Python tool that checks if a module satisfy a coding standard
 Summary(pl.UTF-8):	Narzędzie Pythona sprawdzające zgodność modułu ze standardem kodowania
 Name:		pylint
-Version:	3.3.5
+Version:	3.3.7
 Release:	1
 License:	GPL v2+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/pylint/
 Source0:	https://github.com/PyCQA/pylint/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	44d3c804cae012607fc0b691331d8204
+# Source0-md5:	fc2de037003f16d8a562025fe7cbecb3
 URL:		https://www.pylint.org/
-BuildRequires:	python3-devel >= 1:3.7.2
+BuildRequires:	python3-build
+BuildRequires:	python3-devel >= 1:3.9.0
+BuildRequires:	python3-installer
 BuildRequires:	python3-modules >= 1:3.7.2
-BuildRequires:	python3-setuptools >= 1:62.6
+BuildRequires:	python3-setuptools >= 1:77
 %if %{with tests} || %{with doc}
-BuildRequires:	python3-astroid >= 3.3.0
-BuildRequires:	python3-astroid < 4.0.0
-BuildRequires:	python3-dill >= 0.2
+BuildRequires:	python3-astroid >= 3.3.8
+BuildRequires:	python3-astroid < 3.4
+BuildRequires:	python3-dill >= 0.3.7
 BuildRequires:	python3-isort >= 4.2.5
-BuildRequires:	python3-isort < 6
+BuildRequires:	python3-isort < 7
 BuildRequires:	python3-mccabe >= 0.6
 BuildRequires:	python3-mccabe < 0.8
 BuildRequires:	python3-platformdirs >= 2.2.0
@@ -35,15 +37,16 @@ BuildRequires:	python3-typing_extensions >= 3.10.0
 %endif
 %endif
 %if %{with tests}
-BuildRequires:	python3-pytest
+BuildRequires:	python3-pytest >= 8.3
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.749
+BuildRequires:	rpmbuild(macros) >= 2.044
 %if %{with doc}
-BuildRequires:	python3-furo >= 2021.9
-BuildRequires:	python3-sphinx_reredirects < 1
-BuildRequires:	sphinx-pdg-3 >= 4.5
-# >= 5.1.1 when available
+BuildRequires:	python3-furo >= 2024.8.6
+BuildRequires:	python3-sphinx_reredirects
+# < 1
+BuildRequires:	python3-towncrier >= 24.8
+BuildRequires:	sphinx-pdg-3 >= 7.4
 %endif
 Requires:	py3lint = %{version}-%{release}
 BuildArch:	noarch
@@ -78,7 +81,7 @@ Wersja dla Pythona 3.x, dostępna przez polecenie 'py3lint'.
 Summary:	Python 3 tool that checks if a module satisfy a coding standard (moduły)
 Summary(pl.UTF-8):	Narzędzie Pythona 3 sprawdzające zgodność modułu ze standardem kodowania (modules)
 Group:		Libraries/Python
-Requires:	python3-modules >= 1:3.7.2
+Requires:	python3-modules >= 1:3.9.0
 
 %description -n python3-pylint
 Python 3 tool that checks if a module satisfy a coding standard.
@@ -105,17 +108,8 @@ Dokumentacja do pylinta.
 %prep
 %setup -q
 
-# stub for setuptools
-cat >setup.py <<EOF
-from setuptools import setup
-setup()
-EOF
-
-# disable errors on warnings caused by unreachable network
-%{__sed} -i -e '/ALLSPHINXOPTS/ s/ -W / /' doc/Makefile
-
 %build
-%py3_build
+%py3_build_pyproject
 
 %if %{with doc}
 %{__make} -C doc html \
@@ -129,7 +123,7 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
-%py3_install
+%py3_install_pyproject
 
 for tool in pylint pylint-config pyreverse symilar ; do
 	%{__mv} $RPM_BUILD_ROOT%{_bindir}/${tool} $RPM_BUILD_ROOT%{_bindir}/${tool}-3
@@ -165,10 +159,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc CONTRIBUTORS.txt README.rst examples
 %{py3_sitescriptdir}/pylint
-%{py3_sitescriptdir}/pylint-%{version}-py*.egg-info
+%{py3_sitescriptdir}/pylint-%{version}.dist-info
 
 %if %{with doc}
 %files doc
 %defattr(644,root,root,755)
-%doc doc/_build/html/*
+%doc doc/_build/html/{_images,_static,additional_commands,development,development_guide,how_tos,messages,technical_reference,user_guide,whatsnew,*.html,*.js}
 %endif
